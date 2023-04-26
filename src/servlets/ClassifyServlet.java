@@ -38,10 +38,16 @@ public class ClassifyServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String value=request.getParameter("submit");
+		//int user=Integer.parseInt(request.getParameter("user"));
+		//System.out.println(user);
+		
 		if(value.contentEquals("logout")) {
 			HttpSession session=request.getSession();
 			session.invalidate();
 			response.sendRedirect("LOGINPAGES/logoutsuccessful.jsp");
+		}
+		else if(value.contentEquals("view my details")) {
+			response.sendRedirect("LOGINPAGES/Viewmydetails.jsp");
 		}
 		else if(value.contentEquals("book table")) {
 			HttpSession session=request.getSession();
@@ -65,9 +71,10 @@ public class ClassifyServlet extends HttpServlet {
 					availbean.setTime(-1);
 				}
 				
-				request.setAttribute("recomdata",availbean);
-				RequestDispatcher rd=request.getRequestDispatcher("BOOKINGPAGES/booking.jsp");
-				rd.forward(request, response);
+				session.setAttribute("recomdata",availbean);
+				//RequestDispatcher rd=request.getRequestDispatcher("BOOKINGPAGES/booking.jsp");
+				//rd.forward(request, response);
+				response.sendRedirect("BOOKINGPAGES/booking.jsp");
 			
 			}
 		

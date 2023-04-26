@@ -27,8 +27,8 @@ height:90vh;
 
 </tr></table>
 </form>
-<%if(request.getAttribute("recomdata")!=null){ %>
-<%Availablebean availbean=(Availablebean)request.getAttribute("recomdata"); 
+<%if(session.getAttribute("recomdata")!=null){ %>
+<%Availablebean availbean=(Availablebean)session.getAttribute("recomdata"); 
 if(availbean.getTableno()==-1&&availbean.getTime()==-1){%>
 <table style="height:20%;width:70%;left:15%;right:20%">
 <tr>
@@ -58,7 +58,7 @@ else{ %>
 <td style="height:100px"></td>
 </tr>
 </table>
-<form action="<%=request.getContextPath() %>/AvailabilityServlet" method="post">
+<form action="<%=request.getContextPath() %>/AvailabilityServlet" method="get">
 <table style="height:30%;width:70%; left:15%; right:20%">
 <tr style="height:25%">
 <td colspan="2" style="font-size:20px;text-align:center"><h5> please enter the preferred time slot to get tables.</h5>

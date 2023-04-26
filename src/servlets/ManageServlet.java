@@ -84,7 +84,7 @@ public class ManageServlet extends HttpServlet {
 				}
 				manage=new Managetable();
 				if(manage.cancelBookings(list)) {
-					response.sendRedirect("ADMINPAGES/CancelSuccess.jsp");
+					response.sendRedirect("ADMINPAGES/Cancelsuccess.jsp");
 				}
 				
 				

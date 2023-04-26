@@ -26,19 +26,19 @@ font-size:20px;
 <table>
 <tr style="height:50px">
 <td>First name</td>
-<td><input type="text" name="first_name" required/></td>
+<td><input type="text" name="first_name" maxlength="100"required/></td>
 </tr>
 <tr style="height:50px">
 <td > Last name</td>
-<td><input type="text" name="last_name" required/></td>
+<td><input type="text" name="last_name" maxlength="100"required/></td>
 </tr>
 <tr style="height:50px">
 <td>Mobile number</td>
-<td> <input type="tel" name="mobile_no" pattern="[1-9]{1}[0-9]{9}" required></td>
+<td> <input type="tel" name="mobile_no" maxlength="10"pattern="[1-9]{1}[0-9]{9}" required></td>
 </tr>
 <tr style="height:50px">
 <td>Gmail</td>
-<td><input type="email" name="gmail"required /></td>
+<td><input type="email" name="gmail" maxlength="100" required /></td>
 </tr>
 <tr>
 <td>gender</td>
@@ -51,11 +51,11 @@ font-size:20px;
 </tr>
 <tr style="height:50px">
 <td>User name</td>
-<td><input type="text" name="user_name" required/></td>
+<td><input type="text" name="user_name" maxlength="20"required/></td>
 </tr>
 <tr style="height:50px">
 <td>password</td>
-<td><input type="password" name="password" required/></td>
+<td><input type="password" name="password" minlength="8" maxlength="32"required/></td>
 </tr>
 <tr style="height:50px">
 <td colspan="2" style="text-align:center" ><input type="submit" id="final" value="submit"/></td>

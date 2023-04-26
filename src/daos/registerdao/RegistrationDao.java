@@ -11,6 +11,7 @@ import java.util.List;
 
 
 import beans.Registerbean;
+import beans.Resetbean;
 
 public class RegistrationDao {
 	public void insertDetails(Registerbean registerbean) throws ClassNotFoundException {
@@ -27,13 +28,47 @@ public class RegistrationDao {
 	            preparedStatement.setString(4, registerbean.getMobile());
 	            preparedStatement.setString(5, registerbean.getGmail());
 	            preparedStatement.setString(6, registerbean.getUserpassword());
-	            preparedStatement.setString(7, registerbean.getGender());
+	            //preparedStatement.setString(7, registerbean.getGender());
+	           String gender=registerbean.getGender();
+	           char ch='O';
+	           if(gender.contentEquals("Male")) {
+	        	   ch='M';
+	           }
+	           else if(gender.contentEquals("Female")) {
+	        	   ch='F';
+	           }
+	           else {
+	        	   ch='O';
+	           }
+	           preparedStatement.setString(7,ch+"");
+	           
 	            preparedStatement.executeUpdate();
 	            preparedStatement.close();
 	            connection.close();
 	            } catch (SQLException e) {
 	           e.printStackTrace();
 	        }
+
+		
+	}
+	public void updateToken(Resetbean resetbean) throws ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        try (Connection connection = DriverManager
+            .getConnection("jdbc:mysql://localhost:3306/Restaurant", "root", "Nitish@2510");
+
+            // Step 2:Create a statement using connection object
+            PreparedStatement preparedStatement = connection
+            .prepareStatement("insert into Tokens(token,gmail) values(?,?);")) {
+            preparedStatement.setString(1, resetbean.getToken());
+            preparedStatement.setString(2, resetbean.getGmail());
+          
+            int rs=preparedStatement.executeUpdate();
+            preparedStatement.close();
+            connection.close();  
+        } catch (SQLException e) {
+           e.printStackTrace();
+        }
 
 		
 	}
@@ -50,9 +85,6 @@ public class RegistrationDao {
             .prepareStatement("select user_name,gmail from user_details where user_name = ? or gmail=?  ")) {
             preparedStatement.setString(1, registerbean.getUsername());
             preparedStatement.setString(2, registerbean.getGmail());
-            
-
-            
             ResultSet rs=null;
             rs=preparedStatement.executeQuery();
             
@@ -68,17 +100,10 @@ public class RegistrationDao {
             	return list;
             }
             preparedStatement.close();
-            connection.close();
-            
-            
-            
-            
-            
+            connection.close();  
         } catch (SQLException e) {
            e.printStackTrace();
         }
-        
-           
         return list;
     }
 

@@ -106,7 +106,7 @@ public class RemoveServlet extends HttpServlet {
 				response.sendRedirect("ADMINPAGES/UpdateSuccess.jsp");
 			}
 			else {
-				response.sendRedirect("ADMINPAGES/~UpdatePartial.jsp");
+				response.sendRedirect("ADMINPAGES/UpdatePartial.jsp");
 				System.out.println("not updated");
 			}
 		}

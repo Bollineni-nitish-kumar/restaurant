@@ -37,9 +37,12 @@ public class RegisterServlet extends HttpServlet {
 		String last_name=request.getParameter("last_name");
 		String  mobile_no=request.getParameter("mobile_no");
 		String gmail=request.getParameter("gmail");
-		String gender=request.getParameter("genger");
+		String gender=request.getParameter("gender");
 		String  user_name=request.getParameter("user_name");
 		String  password=request.getParameter("password");
+		registration=new Registration();
+		String hashedPassword=registration.hashPassword(password);
+		System.out.println(hashedPassword);
 		Registerbean registerbean=new Registerbean();
 		registerbean.setFirstname(first_name);
 		registerbean.setLastname(last_name);
@@ -49,6 +52,15 @@ public class RegisterServlet extends HttpServlet {
 		registerbean.setUsername(user_name);
 		registerbean.setUserpassword(password);
 		registration=new Registration();
+		boolean[] valid=registration.validDetails(registerbean);
+		boolean cstatus=true;
+		for(boolean k:valid) {
+			if(!k) {
+				cstatus=false;
+			}
+		}
+		if(cstatus) {
+			registerbean.setUserpassword(hashedPassword);
 		int status=registration.alreadyExisted(registerbean);
 		if(status!=0) {
 			System.out.println("in the servlet");
@@ -69,6 +81,10 @@ public class RegisterServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		}
+		else {
+			
 		}
 		
 		

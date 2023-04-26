@@ -13,13 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import beans.Availablebean;
+import beans.Loginbean;
 import businesslogic.availability.Availability;
+import businesslogic.login.Login;
 
 
 @WebServlet("/AvailabilityServlet")
 public class AvailabilityServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Availability availability;
+	private Login login;
 	public void init() {
 		
 		
@@ -29,8 +32,47 @@ public class AvailabilityServlet extends HttpServlet {
         super();    
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		  HttpSession session=request.getSession();
+		  
+		if((String)session.getAttribute("Username")==null) {
+			   session.invalidate();
+			   request.setAttribute("details",1);
+			   RequestDispatcher rd=request.getRequestDispatcher("LOGINPAGES/index.jsp");
+			   rd.forward(request, response);
+		 }
+		else {
+			String user_name=(String)session.getAttribute("Username");
+			Loginbean loginbean=new Loginbean();
+			loginbean.setUsername(user_name);
+			login=new Login();
+			String role=login.getRole(loginbean);
+			if(role.contentEquals("user")) {
+			boolean has_permission=login.checkRolePermission(role,"view");
+			if(has_permission) {
+		   String subval=request.getParameter("submit");
+		 if(subval!=null&&subval.contentEquals("get tables")) {
+			int num_time=Integer.parseInt(request.getParameter("time"));
+			Availablebean availbean=new Availablebean();
+			availbean.setTime(num_time);
+			List<Availablebean> list=null;
+			System.out.println("i am in get tables availability servlet");
+		    list=availability.getAllTables(availbean);
+		    
+		    request.setAttribute("alldetails",list);
+		    System.out.println(list.size());
+		    RequestDispatcher rd=request.getRequestDispatcher("/BOOKINGPAGES/booking.jsp");
+		    rd.forward(request, response);
+		 
+		 }
+			}
+			else {
+				response.sendRedirect("BOOKINGPAGES/booking.jsp");
+			}
+		 }
+		 else{
+				response.sendRedirect("BOOKINGPAGES/booking.jsp");
+			}
+		}
 	}
 
 	
@@ -84,18 +126,7 @@ public class AvailabilityServlet extends HttpServlet {
 			}
 			
 		}
-		else if(val!=null&&val.contentEquals("get tables")) {
-			int num_time=Integer.parseInt(request.getParameter("time"));
-			Availablebean availbean=new Availablebean();
-			availbean.setTime(num_time);
-			List<Availablebean> list=null;
-		    list=availability.getAllTables(availbean);
-		    request.setAttribute("alldetails",list);
-		    System.out.println(list.size());
-		    RequestDispatcher rd=request.getRequestDispatcher("BOOKINGPAGES/booking.jsp");
-		    rd.forward(request, response);
-		    
-		}
+		
 		else if(value!=null && value.contentEquals("back")) {
 			System.out.println("came");
 			response.sendRedirect("AVAILABILITYPAGES/availability.jsp");

@@ -51,7 +51,7 @@ else {} %>
 </table>
 <form action="<%=request.getContextPath() %>/CancelServlet" method="post">
 <%List<Viewbean> std = 
-            (List<Viewbean>) request.getAttribute("userdata");
+            (List<Viewbean>)session.getAttribute("userdata");
         for(Viewbean bean:std){   
         	final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         	final ObjectOutputStream oos = new ObjectOutputStream(baos);

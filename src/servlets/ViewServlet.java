@@ -42,7 +42,8 @@ public class ViewServlet extends HttpServlet {
 		 response.sendRedirect("BOOKINGPAGES/nobooking.jsp");
 	 }
 	 else {
-		 request.setAttribute("userdata", list);
+		 session.setAttribute("userdata", list);
+		 System.out.println(list.size());
 		 RequestDispatcher rd = request.getRequestDispatcher("BOOKINGPAGES/viewbooking.jsp");
 		 rd.forward(request, response);
 	 }
